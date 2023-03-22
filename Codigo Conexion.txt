@@ -1,0 +1,22 @@
+import de.bezier.data.sql.*;
+import de.bezier.data.sql.mapper.*;
+
+MySQL msql;
+
+
+void setup() {
+  size (100,100);
+  String user = "root";
+  String pass = "abc.123";
+  String database = "Temperatura";
+  msql = new MySQL (this, "localhost", database, user, pass);
+  if (msql.connect()) {
+    msql.query("SELECT * FROM temperatura_sistema");
+    while(msql.next()){
+      println(msql.getFloat(2) + msql.getFloat(1));
+  } 
+    }
+    else {
+      println("No se establecio conexion con la base de datos");
+    }
+}

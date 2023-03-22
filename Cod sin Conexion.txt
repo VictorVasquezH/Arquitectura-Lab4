@@ -1,0 +1,39 @@
+import processing.serial.*;
+
+Serial myPort;
+float temperature;
+
+void setup() {
+  size(400, 400);
+  myPort = new Serial(this, "COM5", 9600);
+}
+
+void draw() {
+  background(255);
+
+  if (myPort.available() > 0) {
+    String temperatureString = myPort.readStringUntil('\n');
+    if (temperatureString != null) {
+      temperatureString = temperatureString.trim();
+      temperature = float(temperatureString);
+    }
+  }
+
+  // Configuración del gráfico
+  float barHeight = map(temperature, 0, 50, 0, height);
+  float barWidth = width/2;
+  float barX = width/4;
+  float barY = height - barHeight;
+
+  // Dibujar el gráfico
+  noStroke();
+  fill(255, 0, 0);
+  rect(barX, barY, barWidth, barHeight);
+
+  // Mostrar la temperatura actual
+  textAlign(CENTER);
+  fill(0);
+  textSize(20);
+  text("Temperatura: " + temperature + " C", width/2, height/2);
+}
+
